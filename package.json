@@ -1,0 +1,15 @@
+{
+  "name": "naxatra-rtmp-server",
+  "version": "1.0.0",
+  "description": "Production RTMP Media Server with Security Validation for Naxatra News",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "express": "^4.19.2",
+    "node-media-server": "^2.6.2",
+    "ws": "^8.17.0"
+  }
+}
