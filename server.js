@@ -9,8 +9,12 @@ const NodeMediaServer = require('node-media-server');
 // 1. Resolve FFmpeg Path dynamically (checks system PATH first, then installer package)
 let ffmpegPath = 'ffmpeg';
 try {
-  execSync('ffmpeg -version', { stdio: 'ignore' });
-  console.log('✔ System FFmpeg detected in PATH.');
+  if (process.platform !== 'win32') {
+    ffmpegPath = execSync('which ffmpeg').toString().trim();
+  } else {
+    execSync('ffmpeg -version', { stdio: 'ignore' });
+  }
+  console.log(`✔ System FFmpeg resolved to: ${ffmpegPath}`);
 } catch (e) {
   console.log('ℹ System FFmpeg not found in PATH. Checking @ffmpeg-installer/ffmpeg...');
   try {
