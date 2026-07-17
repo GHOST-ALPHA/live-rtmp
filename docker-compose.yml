@@ -7,6 +7,7 @@ services:
     restart: unless-stopped
     ports:
       - "1935:1935" # RTMP Ingestion Port
+      - "8001:8001" # HLS Distribution Port (for host proxy setup)
     volumes:
       - media-volume:/usr/src/app/media
     networks:
