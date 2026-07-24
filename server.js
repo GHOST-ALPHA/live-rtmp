@@ -33,6 +33,26 @@ if (!fs.existsSync(mediaDir)) {
 }
 
 // 3. Configure Node-Media-Server (Ingestion on 1935, distribution on 8001)
+const relayTasks = [];
+
+if (process.env.YOUTUBE_STREAM_KEY) {
+  console.log('✔ YouTube Live forwarding configured.');
+  relayTasks.push({
+    app: 'live',
+    mode: 'push',
+    edge: `rtmp://a.rtmp.youtube.com/live2/${process.env.YOUTUBE_STREAM_KEY}`
+  });
+}
+
+if (process.env.FACEBOOK_STREAM_KEY) {
+  console.log('✔ Facebook Live forwarding configured.');
+  relayTasks.push({
+    app: 'live',
+    mode: 'push',
+    edge: `rtmps://live-api-s.facebook.com:443/rtmp/${process.env.FACEBOOK_STREAM_KEY}`
+  });
+}
+
 const nmsConfig = {
   rtmp: {
     port: 1935,
@@ -46,6 +66,7 @@ const nmsConfig = {
     allow_origin: '*',
     mediaroot: './media' // Segment outputs will go here: ./media/live/stream/...
   },
+  relay: relayTasks.length > 0 ? { tasks: relayTasks } : undefined,
   trans: {
     ffmpeg: ffmpegPath,
     tasks: [

@@ -77,6 +77,28 @@ docker compose ps
 
 ---
 
+## 🔗 Multi-Streaming / Simulcast (YouTube & Facebook Live)
+
+The server supports automatic forwarding of your live stream to **YouTube Live** and **Facebook Live** concurrently, without requiring additional upload bandwidth from your studio.
+
+### How to Configure Stream Keys:
+1. Create a local `.env` file in the `/opt/rtmp-server/live-rtmp/` folder on your server:
+   ```env
+   # YouTube Stream Key (e.g. abcd-efgh-ijkl-mnop-qrst)
+   YOUTUBE_STREAM_KEY=your-youtube-stream-key
+   
+   # Facebook Stream Key (e.g. FB-1234567890...)
+   FACEBOOK_STREAM_KEY=your-facebook-stream-key
+   ```
+2. Restart the container stack to apply the keys:
+   ```bash
+   docker compose down
+   docker compose up --build -d rtmp-server
+   ```
+   *If you do not define a key, that specific relay will remain inactive, but other active streams will function normally.*
+
+---
+
 ## 🔌 Hardware Setup: Kiloview Encoder
 
 Configuring the Kiloview hardware encoder to push directly to this server:
